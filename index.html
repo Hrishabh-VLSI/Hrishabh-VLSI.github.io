@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hrishabh Sahu — CV</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* ==========================================================================
+       1. GLOBAL STYLES & CSS RESET
+       ========================================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: #00e5ff; color: #000; }
+
+    /* ==========================================================================
+       2. HERO SECTION
+       ========================================================================== */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+    }
+
+    .hero-left {
+      position: relative;
+      flex-shrink: 0;
+      width: 25%;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(2rem, 3.5vw, 3.5rem);
+      z-index: 20;
+      overflow: visible;
+    }
+
+    .hero-name {
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      font-size: clamp(1.8rem, 5.5vw, 7rem);
+      white-space: nowrap;
+      position: relative;
+      z-index: 30;
+      min-height: clamp(1.8rem, 5.5vw, 7rem); /* Prevents layout jumping */
+    }
+
+    .hero-subtitle {
+      margin-top: clamp(0.75rem, 1.25vw, 1.25rem);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.65);
+      font-size: clamp(0.55rem, 1vw, 0.9rem);
+      white-space: nowrap;
+      position: relative;
+      z-index: 30;
+      min-height: 1.5em; /* Prevents layout jumping */
+    }
+
+    /* Typing Effect Cursor */
+    .blinking-cursor {
+      font-weight: bold;
+      color: #fff;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* --- FADE-IN ELEMENTS (Initially Hidden) --- */
+    .hero-contacts {
+      margin-top: clamp(1.25rem, 1.75vw, 1.75rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+      position: relative;
+      z-index: 30;
+      
+      /* Hides the contacts initially */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .read-more-btn {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      outline: none;
+      padding: 1rem 2rem;
+      
+      /* Hides the button initially */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    /* Class added via JS to trigger the fade-in */
+    .hero-contacts.visible,
+    .read-more-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hero-contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: clamp(0.5rem, 0.75vw, 0.72rem);
+      transition: color 0.2s;
+    }
+    
+    .hero-contact-link:hover { color: #00e5ff; }
+    
+    .hero-contact-link svg {
+      flex-shrink: 0;
+      width: clamp(0.65rem, 0.9vw, 0.85rem);
+      height: clamp(0.65rem, 0.9vw, 0.85rem);
+    }
+    .hero-contact-link span { font-family: monospace; white-space: nowrap; }
+
+    .hero-right {
+      position: relative;
+      width: 75%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.95) 100%);
+      z-index: 10;
+      pointer-events: none; 
+    }
+
+    .hero-fade {
+      position: absolute;
+      top: 0; bottom: 0; left: 0;
+      width: 40%;
+      background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, transparent 100%);
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .read-more-text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      text-shadow: 0px 0px 20px rgba(0,0,0,1), 0px 4px 15px rgba(0,0,0,0.8), 0px 0px 8px rgba(0,0,0,1);
+      transition: color 0.3s;
+    }
+
+    .read-more-icon {
+      color: rgba(255,255,255,0.6);
+      filter: drop-shadow(0px 0px 8px rgba(0,0,0,1)) drop-shadow(0px 3px 10px rgba(0,0,0,0.9));
+      transition: color 0.3s;
+      animation: bounce 1s infinite;
+    }
+
+    .read-more-btn:hover .read-more-text,
+    .read-more-btn:hover .read-more-icon { color: #00e5ff; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* ==========================================================================
+       4. CONTENT SECTION (BELOW THE FOLD)
+       ========================================================================== */
+    .content-section {
+      width: 100%;
+      background: #000;
+      padding: 6rem clamp(1.5rem, 6vw, 6rem);
+    }
+
+    .cards-grid {
+      max-width: 80rem;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .card-column { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .column-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #00e5ff;
+      border-bottom: 1px solid #164e63;
+      padding-bottom: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #222;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(0,229,255,0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .card:hover { border-color: rgba(0,229,255,0.5); transform: translateY(-4px); }
+    .card:hover::before { opacity: 1; }
+
+    .card h3 { font-weight: 700; font-size: 1.125rem; color: #fff; margin-bottom: 0.5rem; }
+    .card .inst { color: #9ca3af; font-size: 0.875rem; margin-bottom: 1rem; }
+    .card .inst-sm { color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.25rem; }
+
+    .meta-row { display: flex; align-items: center; font-size: 0.75rem; color: #00e5ff; font-family: monospace; }
+    .meta-sep { margin: 0 0.5rem; color: #444; }
+    .date-tag { color: rgba(0,229,255,0.7); font-size: 0.75rem; font-family: monospace; margin-bottom: 1rem; }
+
+    .guide-line {
+      font-size: 0.875rem;
+      color: #9ca3af;
+      border-left: 2px solid #164e63;
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .body-text { color: #d1d5db; font-size: 0.875rem; line-height: 1.6; }
+
+    .project-link {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: #fff;
+      text-decoration: none;
+      margin-bottom: 0.25rem;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: #00e5ff; }
+
+    .skill-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .skill-label { font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(0,229,255,0.7); font-family: monospace; }
+    .skill-value { color: #d1d5db; font-size: 0.875rem; line-height: 1.6; }
+    .card.skills-card { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .achievement { display: flex; gap: 0.75rem; }
+    .ach-num { color: #00e5ff; font-family: monospace; font-size: 0.875rem; margin-top: 0.125rem; flex-shrink: 0; }
+    .ach-text { color: #d1d5db; font-size: 0.875rem; line-height: 1.6; }
+    .ach-text strong { color: #fff; font-weight: 600; }
+    .card.ach-card { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .contact-row { display: flex; flex-direction: column; gap: 0.25rem; }
+    .contact-label { font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.2em; color: #9ca3af; }
+    .contact-value {
+      color: #fff;
+      font-size: 0.875rem;
+      font-family: monospace;
+      text-decoration: none;
+      word-break: break-all;
+      transition: color 0.2s;
+    }
+    .contact-value:hover { color: #00e5ff; }
+    .card.contact-card { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    /* ==========================================================================
+       5. RESPONSIVE DESIGN (MOBILE PHONES & TABLETS)
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .hero { flex-direction: column; }
+      .hero-left { width: 100%; height: 40dvh; }
+      .hero-right { width: 100%; height: 60dvh; }
+      .hero-name { white-space: normal; font-size: clamp(2.5rem, 10vw, 4rem); }
+      .hero-subtitle { white-space: normal; font-size: 0.7rem; }
+      .hero-contact-link { font-size: 0.7rem; }
+      .hero-contact-link svg { width: 0.75rem; height: 0.75rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+
+    <div class="hero-left">
+      <h1 class="hero-name"><span id="typewriter-name"></span><span id="cursor-name" class="blinking-cursor">|</span></h1>
+      <p class="hero-subtitle"><span id="typewriter-title"></span><span id="cursor-title" class="blinking-cursor" style="display: none;">|</span></p>
+
+      <div class="hero-contacts">
+        <a href="mailto:hrishabhsahu123@gmail.com" class="hero-contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>hrishabhsahu123@gmail.com</span>
+        </a>
+        <a href="mailto:jtm253028@iitd.ac.in" class="hero-contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>jtm253028@iitd.ac.in</span>
+        </a>
+        <a href="https://linkedin.com/in/Hrishabh-Sahu" target="_blank" rel="noopener noreferrer" class="hero-contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          <span>linkedin.com/in/Hrishabh-Sahu</span>
+        </a>
+        <a href="https://github.com/Hrishabh-VLSI" target="_blank" rel="noopener noreferrer" class="hero-contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          <span>github.com/Hrishabh-VLSI</span>
+        </a>
+        <a href="https://hrishabh-vlsi.github.io/Hrishabh_CV.pdf" target="_blank" rel="noopener noreferrer" class="hero-contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>Download CV</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-overlay"></div>
+      <div class="hero-fade"></div>
+      <video class="hero-video" src="background.mp4" autoplay loop muted playsinline></video>
+    </div>
+
+    <button class="read-more-btn" onclick="document.getElementById('content-section').scrollIntoView({behavior:'smooth'})">
+      <span class="read-more-text">Read More</span>
+      <svg class="read-more-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+  </section>
+
+  <section class="content-section" id="content-section">
+    <div class="cards-grid">
+
+      <div class="card-column">
+        <h2 class="column-heading">Education</h2>
+
+        <div class="card">
+          <h3>M.Tech in Communication Engg.</h3>
+          <p class="inst">Indian Institute of Technology, Delhi</p>
+          <div class="meta-row"><span>2025 – 2027</span><span class="meta-sep">|</span><span>CPI: 7.5/10</span></div>
+        </div>
+
+        <div class="card">
+          <h3>B.Tech in Electrical &amp; Electronics Engg.</h3>
+          <p class="inst">Bhilai Institute of Technology, Durg</p>
+          <div class="meta-row"><span>2018 – 2022</span><span class="meta-sep">|</span><span>CPI: 8.8/10</span></div>
+        </div>
+
+        <div class="card">
+          <h3>Class XII</h3>
+          <p class="inst">BSP Senior Secondary School Sector-7, Bhilai</p>
+          <div class="meta-row"><span>2018</span><span class="meta-sep">|</span><span>Score: 80%</span></div>
+        </div>
+
+        <div class="card">
+          <h3>Class X</h3>
+          <p class="inst">BSP Senior Secondary School Sector-7, Bhilai</p>
+          <div class="meta-row"><span>2016</span><span class="meta-sep">|</span><span>CGPA: 7.6/10</span></div>
+        </div>
+      </div>
+
+      <div class="card-column">
+        <h2 class="column-heading">Projects</h2>
+
+        <div class="card">
+          <a href="https://hrishabh-vlsi.github.io/Memory.png" target="_blank" rel="noopener noreferrer" class="project-link">128Kb × 8 High Speed CMOS SRAM Design &amp; Layout Implementation</a>
+          <p class="date-tag">April 2026</p>
+          <p class="guide-line">Guide: Dr. Kaushik Saha, IIT Delhi</p>
+          <p class="body-text">Executed full-custom design and meticulous manual layout of an industrial-grade 128Kb × 8 high-speed CMOS SRAM, targeting CYPRESS CY7C1019CV33-10 specifications in UMC 65nm. Performed rigorous transistor-level optimization focusing on bitcell stability, sense amplifier calibration, ATD circuitry, and peripheral design to successfully balance area, power, and performance at the silicon level.</p>
+        </div>
+        <div class="card">
+          <a href="#" class="project-link">LDPC Implementation in 5G Standard</a>
+          <p class="date-tag">Ongoing</p>
+          <p class="guide-line">Guide: Prof. Kaushik Saha, IIT Delhi</p>
+          <p class="body-text">Developed a C++ software reference model for 5G NR LDPC channel coding compliant with 3GPP TS 38.212 (V19.2.0). Implemented the encoder, Min-Sum decoder, rate matching, and rate recovery. Established a sequential baseline throughput of 0.25 Mbps, setting the stage for the upcoming Verilog RTL design phase to achieve parallel hardware acceleration.</p>        </div>
+        <div class="card">
+          <a href="#" class="project-link">8-bit Model CPU — RTL Design</a>
+          <p class="date-tag">October 2025</p>
+          <p class="guide-line">Guide: Prof. Ankesh Jain, IIT Delhi</p>
+          <p class="body-text">Designed an 8-bit model CPU in Verilog featuring a 256-byte memory instruction fetch, arithmetic operations (add/sub), logical shifts, and unsigned 8-bit multiplication. Verified functional correctness using comprehensive testbenches and synthesized the design in Xilinx Vivado. Performed static timing analysis to determine the maximum operating frequency, successfully reducing critical-path latency through modular RTL design.</p>        </div>
+      </div>
+
+      <div class="card-column">
+        <h2 class="column-heading">Work Experience</h2>
+
+        <div class="card">
+          <h3>Graduate Engineering Trainee (GET)</h3>
+          <p class="inst-sm">HCL Tech</p>
+          <p class="date-tag">Aug 2022 – Dec 2023</p>
+          <p class="body-text">Administered IT operations for a US-based insurance client utilizing Microsoft SCCM. Executed the deployment of MS Windows security patches and software updates to client VDIs, and actively troubleshot deployment errors across the managed environment. Recognized with an 'Outstanding Contribution' award for exceptional performance during the JFM-23 quarter.</p>        </div>
+
+        <div class="card">
+          <h3>Trainee — ETL Laboratory</h3>
+          <p class="inst-sm">Bhilai Steel Plant</p>
+          <p class="date-tag">Aug 2021 – Nov 2021</p>
+          <p class="body-text">Observed scheduled inspection and maintenance of numerical relays, PLCs, and circuit breakers. Studied relay testing procedures, troubleshooting methods, and PLC roles in industrial automation.</p>
+        </div>
+      </div>
+
+      <div class="card-column">
+        <h2 class="column-heading">Skills</h2>
+
+        <div class="card skills-card">
+          <div class="skill-group">
+            <p class="skill-label">Languages</p>
+            <p class="skill-value">Verilog | C++ | Python | MATLAB | HTML</p>
+          </div>
+          <div class="skill-group">
+            <p class="skill-label">Software</p>
+            <p class="skill-value">Cadence Virtuoso | Genus | Innovus | Calibre | Vivado | LT Spice | Microsoft Excel | Microsoft Word | SCCM | Service Now </p>
+          </div>
+          <div class="skill-group">
+            <p class="skill-label">Courses</p>
+            <p class="skill-value">Semiconductor Memory Design | CMOS Digital IC Design | Digital Electronics | MIMO Wireless Communication | Digital Communication | Signal Processing Lab | Machine Learning | Signal Theory</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-column">
+        <h2 class="column-heading">Achievements</h2>
+
+        <div class="card ach-card">
+          <div class="achievement">
+            <span class="ach-num">01</span>
+            <p class="ach-text">Scored <strong>highest marks</strong> in Semiconductor Memory Design course taken by Prof. Kaushik Saha among 30 students.</p>
+          </div>
+          <div class="achievement">
+            <span class="ach-num">02</span>
+            <p class="ach-text">Secured <strong>97.06 percentile</strong> in GATE EE 2025 among all candidates who appeared for the examination.</p>
+          </div>
+          <div class="achievement">
+            <span class="ach-num">03</span>
+            <p class="ach-text">Received appreciation for <strong>outstanding contribution</strong> during the JFM-23 Quarter at HCL Tech.</p>
+          </div>
+          <div class="achievement">
+            <span class="ach-num">04</span>
+            <p class="ach-text">Secured <strong>second position in Academics</strong> in Class XII.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-column">
+        <h2 class="column-heading">Contact</h2>
+
+        <div class="card contact-card">
+          <div class="contact-row">
+            <p class="contact-label">Email</p>
+            <a href="mailto:hrishabhsahu123@gmail.com" class="contact-value">hrishabhsahu123@gmail.com</a>
+          </div>
+          <div class="contact-row">
+            <p class="contact-label">Academic Email</p>
+            <a href="mailto:jtm253028@iitd.ac.in" class="contact-value">jtm253028@iitd.ac.in</a>
+          </div>
+          <div class="contact-row">
+            <p class="contact-label">LinkedIn</p>
+            <a href="https://linkedin.com/in/Hrishabh-Sahu" target="_blank" rel="noopener noreferrer" class="contact-value">linkedin.com/in/Hrishabh-Sahu</a>
+          </div>
+          <div class="contact-row">
+            <p class="contact-label">GitHub</p>
+            <a href="https://github.com/Hrishabh-VLSI" target="_blank" rel="noopener noreferrer" class="contact-value">github.com/Hrishabh-VLSI</a>
+          </div>
+          <div class="contact-row">
+            <p class="contact-label">CV</p>
+            <a href="https://hrishabh-vlsi.github.io/Hrishabh_CV.pdf" target="_blank" rel="noopener noreferrer" class="contact-value">Download CV</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    const nameStr = "Hrishabh Sahu";
+    const titleStr = "Electrical and Electronics Engineer";
+    const speed = 75; // Typing speed in milliseconds
+    
+    let nameIndex = 0;
+    let titleIndex = 0;
+
+    function typeName() {
+      if (nameIndex < nameStr.length) {
+        document.getElementById("typewriter-name").innerHTML += nameStr.charAt(nameIndex);
+        nameIndex++;
+        setTimeout(typeName, speed);
+      } else {
+        // Hide the cursor next to the name, show the cursor next to the title
+        document.getElementById("cursor-name").style.display = "none";
+        document.getElementById("cursor-title").style.display = "inline";
+        
+        // Wait a tiny bit (300ms), then start typing the title
+        setTimeout(typeTitle, 300);
+      }
+    }
+
+    function typeTitle() {
+      if (titleIndex < titleStr.length) {
+        document.getElementById("typewriter-title").innerHTML += titleStr.charAt(titleIndex);
+        titleIndex++;
+        setTimeout(typeTitle, speed);
+      } else {
+        // Once all typing is completely finished, trigger the fade-ins!
+        document.querySelector('.hero-contacts').classList.add('visible');
+        document.querySelector('.read-more-btn').classList.add('visible');
+      }
+    }
+
+    // Start the whole sequence 500ms after the page loads
+    window.onload = function() {
+      setTimeout(typeName, 500);
+    };
+  </script>
+
+</body>
+</html>
