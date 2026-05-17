@@ -1,6 +1,4 @@
 # Hrishabh-VLSI.github.io
-About
-
 I am a postgraduate engineering student at IIT Delhi with a focus on high-performance integrated circuit design and next-generation communication systems. My expertise lies in bridging the gap between theoretical signal processing and physical hardware implementation, specifically within the VLSI and 5G NR domains.
 Currently, I am deep-diving into full-custom silicon design and LDPC hardware architectures, leveraging a background in industrial software environments to build robust, scalable engineering solutions.
 
